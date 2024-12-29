@@ -5,30 +5,31 @@
       
       <div class="space-y-4">
         <div class="relative">
-          <!-- Use a hidden textarea for the actual input -->
+          <!-- The actual textarea for input -->
           <textarea
             v-model="jsonInput"
-            class="w-full p-4 font-mono text-sm border-2 rounded-lg h-96 opacity-0 absolute"
+            @scroll="syncScroll"
             @input="handleInput"
-          ></textarea>
-          
-          <!-- Display div with highlighting -->
-          <pre
-            ref="displayArea"
-            class="w-full p-4 font-mono text-sm border-2 rounded-lg h-96 overflow-auto whitespace-pre-wrap break-all"
+            class="absolute w-full h-96 p-4 font-mono text-sm border-2 rounded-lg resize-none bg-transparent text-transparent caret-black"
             :class="{
               'border-red-500': hasError,
               'border-gray-300': !hasError
             }"
-          ><template v-if="jsonInput">{{ preErrorText }}<span 
-              v-if="hasError" 
-              class="bg-red-200 relative cursor-help"
-              @mouseenter="showTooltip = true"
-              @mouseleave="showTooltip = false"
-            >{{ errorSection }}<span 
-              v-if="showTooltip"
-              class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-red-100 border border-red-300 rounded text-red-700 text-sm whitespace-normal z-10 min-w-[200px] text-center"
-            >{{ errorMessage }}</span></span>{{ postErrorText }}</template><template v-else>Paste your JSON here...</template></pre>
+            spellcheck="false"
+          ></textarea>
+  
+          <!-- Highlighting overlay -->
+          <pre
+            ref="highlightOverlay"
+            class="w-full h-96 p-4 font-mono text-sm rounded-lg overflow-auto whitespace-pre-wrap break-words pointer-events-none"
+            aria-hidden="true"
+          ><template v-for="(part, index) in highlightedParts" :key="index"><span 
+              :class="{
+                'bg-red-200': part.type === 'error',
+                'text-gray-900': part.type === 'normal'
+              }"
+              :data-error="part.type === 'error' ? errorMessage : ''"
+            >{{ part.text }}</span></template><template v-if="!jsonInput">Paste your JSON here...</template></pre>
         </div>
   
         <div class="flex space-x-4">
@@ -48,6 +49,14 @@
           </button>
         </div>
   
+        <!-- Error message -->
+        <div 
+          v-if="hasError" 
+          class="p-3 bg-red-100 border border-red-300 rounded-lg text-red-700 text-sm"
+        >
+          {{ errorMessage }} (Line: {{ errorLocation.line }}, Column: {{ errorLocation.column }})
+        </div>
+  
         <!-- Success message -->
         <div 
           v-if="showSuccess" 
@@ -64,12 +73,16 @@
   const hasError = ref(false)
   const errorMessage = ref('')
   const showSuccess = ref(false)
-  const showTooltip = ref(false)
-  const errorPosition = ref(null)
-  const preErrorText = ref('')
-  const postErrorText = ref('')
-  const errorSection = ref('')
-  const displayArea = ref(null)
+  const errorLocation = ref({ line: 0, column: 0 })
+  const highlightOverlay = ref(null)
+  const highlightedParts = ref([])
+  
+  const syncScroll = (e) => {
+    if (highlightOverlay.value) {
+      highlightOverlay.value.scrollTop = e.target.scrollTop
+      highlightOverlay.value.scrollLeft = e.target.scrollLeft
+    }
+  }
   
   const parseErrorPosition = (error) => {
     const lines = jsonInput.value.split('\n')
@@ -101,80 +114,138 @@
     postErrorText.value = jsonInput.value.substring(end)
   }
   
-  const handleInput = (event) => {
-    // Clear error states when input changes
+  const handleInput = () => {
     hasError.value = false
     errorMessage.value = ''
     showSuccess.value = false
-    errorPosition.value = null
+    errorLocation.value = { line: 0, column: 0 }
+    updateHighlighting(null)
   }
   
+  const updateHighlighting = (location) => {
+  if (!location || !jsonInput.value) {
+    highlightedParts.value = [{ type: 'normal', text: jsonInput.value }]
+    return
+  }
+
+  const lines = jsonInput.value.split('\n')
+  const errorLine = location.line - 1
+  const errorColumn = location.column
+
+  const parts = []
+  
+  // Add lines before error
+  if (errorLine > 0) {
+    parts.push({
+      type: 'normal',
+      text: lines.slice(0, errorLine).join('\n') + '\n'
+    })
+  }
+  
+  // Add error line with highlighting
+  const line = lines[errorLine]
+  if (line) {
+    const beforeError = line.slice(0, Math.max(0, errorColumn - 1))
+    const errorChar = line.slice(errorColumn - 1, errorColumn)
+    const afterError = line.slice(errorColumn)
+    
+    if (beforeError) {
+      parts.push({ type: 'normal', text: beforeError })
+    }
+    parts.push({ type: 'error', text: errorChar })
+    if (afterError) {
+      parts.push({ type: 'normal', text: afterError })
+    }
+  }
+  
+  // Add lines after error
+  if (errorLine < lines.length - 1) {
+    parts.push({
+      type: 'normal',
+      text: '\n' + lines.slice(errorLine + 1).join('\n')
+    })
+  }
+  
+  highlightedParts.value = parts
+}
+
   const validateJSON = () => {
     try {
-      // Clear previous states
-      hasError.value = false
-      errorMessage.value = ''
-      showSuccess.value = false
-      errorPosition.value = null
-  
-      // Try to parse the JSON
       if (!jsonInput.value.trim()) {
         throw new Error('Please enter some JSON to validate')
       }
       
       JSON.parse(jsonInput.value)
-      
-      // If we get here, JSON is valid
+      hasError.value = false
+      errorMessage.value = ''
       showSuccess.value = true
+      errorLocation.value = { line: 0, column: 0 }
+      updateHighlighting(null)
       
-      // Hide success message after 3 seconds
       setTimeout(() => {
         showSuccess.value = false
       }, 3000)
     } catch (e) {
       hasError.value = true
       errorMessage.value = e.message
-      errorPosition.value = parseErrorPosition(e)
-      highlightError(errorPosition.value)
+      errorLocation.value = parseErrorPosition(e)
+      updateHighlighting(errorLocation.value)
     }
   }
   
   const formatJSON = () => {
     try {
-      // Clear previous states
-      hasError.value = false
-      errorMessage.value = ''
-      showSuccess.value = false
-      errorPosition.value = null
-  
       if (!jsonInput.value.trim()) {
         throw new Error('Please enter some JSON to format')
       }
   
-      // Parse and stringify with pretty printing
       const parsed = JSON.parse(jsonInput.value)
       jsonInput.value = JSON.stringify(parsed, null, 2)
+      hasError.value = false
+      errorMessage.value = ''
+      showSuccess.value = true
+      errorLocation.value = { line: 0, column: 0 }
+      updateHighlighting(null)
     } catch (e) {
       hasError.value = true
       errorMessage.value = e.message
-      errorPosition.value = parseErrorPosition(e)
-      highlightError(errorPosition.value)
+      errorLocation.value = parseErrorPosition(e)
+      updateHighlighting(errorLocation.value)
     }
   }
   
-  // Sync scroll position between hidden textarea and display div
+  // Initialize highlighting
   onMounted(() => {
-    const textarea = document.querySelector('textarea')
-    const pre = displayArea.value
-  
-    textarea.addEventListener('scroll', () => {
-      pre.scrollTop = textarea.scrollTop
-      pre.scrollLeft = textarea.scrollLeft
-    })
-  
-    pre.addEventListener('scroll', () => {
-      textarea.scrollTop = pre.scrollTop
-      textarea.scrollLeft = pre.scrollLeft
-    })
+    updateHighlighting(null)
   })
   </script>
+  
+  <style scoped>
+  /* Make textarea and overlay use the same font sizing */
+  textarea, pre {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Style the error highlights */
+  [data-error] {
+    position: relative;
+  }
+  
+  [data-error]:hover::after {
+    content: attr(data-error);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem;
+    background: #FEE2E2;
+    border: 1px solid #FCA5A5;
+    border-radius: 0.375rem;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    color: #B91C1C;
+    z-index: 10;
+    pointer-events: none;
+  }
+  </style>
