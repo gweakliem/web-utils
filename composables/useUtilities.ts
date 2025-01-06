@@ -68,7 +68,7 @@ export const useUtilities = () => {
         id: 'schema',
         name: 'Schema Tools',
         path: '/utils/schema',
-        icon: 'mdi:schema',
+        icon: 'mdi:database',
         description: 'Tools for working with JSON, Parquet, Avro, and Protobuf schemas'
       },
       {
