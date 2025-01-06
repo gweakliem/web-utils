@@ -47,7 +47,7 @@ export const useUtilities = () => {
         id: 'dice',
         name: 'Dice Roller',
         path: '/utils/dice',
-        icon: 'mdi:dice-multiple',
+        icon: 'mdi:dice',
         description: 'Roll various types of dice'
       },
       {
@@ -58,11 +58,25 @@ export const useUtilities = () => {
         description: 'Generate secure passwords'
       },
       {
-        id: 'image',
-        name: 'AI Image Generator',
-        path: '/utils/image',
-        icon: 'mdi:image',
-        description: 'Generate images using AI'
+        id: 'rng',
+        name: 'Random Number Generator',
+        path: '/utils/rng',
+        icon: 'mdi:numeric',
+        description: 'Generate random numbers'
+      },
+      {
+        id: 'schema',
+        name: 'Schema Tools',
+        path: '/utils/schema',
+        icon: 'mdi:schema',
+        description: 'Tools for working with JSON, Parquet, Avro, and Protobuf schemas'
+      },
+      {
+        id: 'feedback',
+        name: 'Feedback',
+        path: '/utils/feedback',
+        icon: 'mdi:comment',
+        description: 'Feedback On This Site'
       }
     ]
   
