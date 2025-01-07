@@ -1,9 +1,17 @@
-# Nuxt Minimal Starter
+# Web Utilities project
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Created using [Nuxt](https://nuxt.com/docs/getting-started/introduction). This outlines what's required to build and work on this project.
 
 ## Setup
 
+### Prerequesites
+
+- [Node.js](https://nodejs.org/en/download/)
+- [npm](https://www.npmjs.com/get-npm)
+
+It's probably a good idea to use [nvm](https://github.com/nvm-sh/nvm) to manage your Node.js versions.
+
+### Installation
 Make sure to install dependencies:
 
 ```bash

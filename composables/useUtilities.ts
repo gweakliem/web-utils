@@ -15,13 +15,13 @@ export const useUtilities = () => {
         icon: 'mdi:code-json',
         description: 'JSON validation, formatting and JSONPath evaluation'
       },
-      {
-        id: 'colors',
-        name: 'Color Palette',
-        path: '/utils/colors',
-        icon: 'mdi:palette',
-        description: 'Generate color palettes'
-      },
+      // {
+      //   id: 'colors',
+      //   name: 'Color Palette',
+      //   path: '/utils/colors',
+      //   icon: 'mdi:palette',
+      //   description: 'Generate color palettes'
+      // },
       {
         id: 'pomodoro',
         name: 'Pomodoro Timer',
