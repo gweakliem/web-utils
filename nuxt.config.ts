@@ -14,5 +14,10 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' }
       ]
     }
-  }
+  },
+  runtimeConfig: {
+    public: {
+      githubToken: process.env.FEEDBACK_TOKEN
+    }
+  },
 })

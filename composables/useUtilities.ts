@@ -36,13 +36,13 @@ export const useUtilities = () => {
         icon: 'mdi:qrcode',
         description: 'Generate QR codes from URLs'
       },
-      {
-        id: 'coin',
-        name: 'Coin Flip',
-        path: '/utils/coin',
-        icon: 'mdi:coin',
-        description: 'Simulate coin flips'
-      },
+      // {
+      //   id: 'coin',
+      //   name: 'Coin Flip',
+      //   path: '/utils/coin',
+      //   icon: 'mdi:coin',
+      //   description: 'Simulate coin flips'
+      // },
       {
         id: 'dice',
         name: 'Dice Roller',
@@ -75,8 +75,8 @@ export const useUtilities = () => {
         id: 'feedback',
         name: 'Feedback',
         path: '/utils/feedback',
-        icon: 'mdi:comment',
-        description: 'Feedback On This Site'
+        icon: 'mdi:message-text',
+        description: 'Feedback or report issues'
       }
     ]
   
