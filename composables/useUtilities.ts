@@ -9,19 +9,19 @@ export const useUtilities = () => {
         description: 'Encode or decode Base64 strings'
       },
       {
+        id: 'urlencode',
+        name: 'URL Encoder',
+        path: '/utils/urlencode',
+        icon: 'mdi:percent',
+        description: 'Encode and decode URL components'
+      },
+      {
         id: 'json',
         name: 'JSON Tools',
         path: '/utils/json',
         icon: 'mdi:code-json',
         description: 'JSON validation, formatting and JSONPath evaluation'
       },
-      // {
-      //   id: 'colors',
-      //   name: 'Color Palette',
-      //   path: '/utils/colors',
-      //   icon: 'mdi:palette',
-      //   description: 'Generate color palettes'
-      // },
       {
         id: 'pomodoro',
         name: 'Pomodoro Timer',
@@ -37,39 +37,32 @@ export const useUtilities = () => {
         description: 'Generate QR codes from URLs'
       },
       // {
-      //   id: 'coin',
-      //   name: 'Coin Flip',
-      //   path: '/utils/coin',
-      //   icon: 'mdi:coin',
-      //   description: 'Simulate coin flips'
+      //   id: 'dice',
+      //   name: 'Dice Roller',
+      //   path: '/utils/dice',
+      //   icon: 'mdi:dice',
+      //   description: 'Roll various types of dice'
       // },
-      {
-        id: 'dice',
-        name: 'Dice Roller',
-        path: '/utils/dice',
-        icon: 'mdi:dice',
-        description: 'Roll various types of dice'
-      },
-      {
-        id: 'password',
-        name: 'Password Generator',
-        path: '/utils/password',
-        icon: 'mdi:form-textbox-password',
-        description: 'Generate secure passwords'
-      },
-      {
-        id: 'rng',
-        name: 'Random Number Generator',
-        path: '/utils/rng',
-        icon: 'mdi:numeric',
-        description: 'Generate random numbers'
-      },
+      // {
+      //   id: 'password',
+      //   name: 'Password Generator',
+      //   path: '/utils/password',
+      //   icon: 'mdi:form-textbox-password',
+      //   description: 'Generate secure passwords'
+      // },
+      // {
+      //   id: 'rng',
+      //   name: 'Random Number Generator',
+      //   path: '/utils/rng',
+      //   icon: 'mdi:numeric',
+      //   description: 'Generate random numbers'
+      // },
       {
         id: 'schema',
         name: 'Schema Tools',
         path: '/utils/schema',
-        icon: 'mdi:database',
-        description: 'Tools for working with JSON, Parquet, Avro, and Protobuf schemas'
+        icon: 'mdi:file-tree',
+        description: 'JSON Schema validation and tools'
       },
       {
         id: 'feedback',

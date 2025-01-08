@@ -2,6 +2,10 @@
   <div class="feedback-form max-w-2xl mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Submit Feedback</h1>
     
+    <div>
+      <p class="text-sm text-gray-600">We value your feedback!</p>
+      <p class="mb-2">Issues are tracked on <a href="https://github.com/gweakliem/web-utils/issues" class="text-blue-600 hover:underline">GitHub:</a></p>
+    </div>
     <form @submit.prevent="submitFeedback" class="space-y-4">
       <div>
         <label for="title" class="block text-sm font-medium mb-1">Title</label>
