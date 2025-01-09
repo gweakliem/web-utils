@@ -81,10 +81,13 @@
       </div>
     </div>
   </div>
+  <div class="fixed bottom-4 right-4 bg-green-100 border border-green-300 text-green-700 px-4 py-2 rounded-lg shadow-lg">
+    The notification sound was created by Daniel Simion and is licensed via the <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 3.0 License</a>.
+  </div>
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from 'vue'
+import { ref, computed, onUnmounted, watch } from 'vue'
 
 // Timer settings
 const settings = ref({
@@ -119,6 +122,16 @@ const toggleTimer = () => {
   if (isRunning.value) {
     clearInterval(timerInterval)
   } else {
+    // Set initial time when starting
+    if (timeRemaining.value === 0) {
+      if (isBreak.value) {
+        timeRemaining.value = currentPomodoro.value % 4 === 0
+          ? settings.value.longBreakDuration * 60
+          : settings.value.breakDuration * 60
+      } else {
+        timeRemaining.value = settings.value.workDuration * 60
+      }
+    }
     timerInterval = setInterval(updateTimer, 1000)
   }
   isRunning.value = !isRunning.value
@@ -183,4 +196,32 @@ onUnmounted(() => {
     clearInterval(timerInterval)
   }
 })
+
+// Watch for settings changes
+watch(
+  () => settings.value.workDuration,
+  (newDuration) => {
+    if (!isRunning.value && !isBreak.value) {
+      timeRemaining.value = newDuration * 60
+    }
+  }
+)
+
+watch(
+  () => settings.value.breakDuration,
+  (newDuration) => {
+    if (!isRunning.value && isBreak.value && currentPomodoro.value % 4 !== 0) {
+      timeRemaining.value = newDuration * 60
+    }
+  }
+)
+
+watch(
+  () => settings.value.longBreakDuration,
+  (newDuration) => {
+    if (!isRunning.value && isBreak.value && currentPomodoro.value % 4 === 0) {
+      timeRemaining.value = newDuration * 60
+    }
+  }
+)
 </script>

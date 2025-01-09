@@ -81,3 +81,8 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Resources
+
+Sounds downloaded from [SoundBible.com](https://soundbible.com/), licensed under [Creative Commons Attribution 3.0](https://creativecommons.org/licenses/by/3.0/)
+* https://soundbible.com/2155-Text-Message-Alert-2.html
