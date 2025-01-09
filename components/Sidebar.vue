@@ -2,7 +2,7 @@
 <template>
     <aside class="w-64 bg-white shadow-lg">
       <div class="p-4">
-        <h1 class="text-xl font-bold">Web Utilities</h1>
+        <h1 class="text-xl font-bold"><a href="/">Web Utilities</a></h1>
       </div>
       <nav class="mt-4">
         <ul>

@@ -20,7 +20,7 @@ export const useUtilities = () => {
         name: 'JSON Tools',
         path: '/utils/json',
         icon: 'mdi:code-json',
-        description: 'JSON validation, formatting and JSONPath evaluation'
+        description: 'JSON validation and formatting'
       },
       {
         id: 'pomodoro',
