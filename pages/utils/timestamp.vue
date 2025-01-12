@@ -1,0 +1,210 @@
+<template>
+    <div>
+      <h1 class="text-2xl font-bold mb-6">Unix Timestamp Converter</h1>
+      
+      <div class="grid gap-6">
+        <!-- Unix Timestamp Input -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Unix Timestamp</span>
+          </label>
+          <div class="flex gap-4">
+            <input
+              type="number"
+              v-model="timestamp"
+              class="input input-bordered flex-1"
+              placeholder="Enter Unix timestamp..."
+              @input="updateFromTimestamp"
+            />
+            <select 
+              v-model="timestampFormat" 
+              class="select select-bordered w-48"
+              @change="updateFromTimestamp"
+            >
+              <option value="seconds">Seconds</option>
+              <option value="milliseconds">Milliseconds</option>
+              <option value="microseconds">Microseconds</option>
+              <option value="nanoseconds">Nanoseconds</option>
+            </select>
+          </div>
+        </div>
+  
+        <!-- Human Readable Date Input -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Human Readable Date</span>
+          </label>
+          <input
+            type="datetime-local"
+            v-model="dateTime"
+            class="input input-bordered w-full"
+            @input="updateFromDateTime"
+          />
+        </div>
+  
+        <!-- All Timestamp Formats -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">All Formats</span>
+          </label>
+          <div class="grid gap-2 text-sm p-4 bg-base-200 rounded-lg">
+            <div class="grid grid-cols-2">
+              <span class="font-semibold">Seconds:</span>
+              <span>{{ allFormats.seconds }}</span>
+            </div>
+            <div class="grid grid-cols-2">
+              <span class="font-semibold">Milliseconds:</span>
+              <span>{{ allFormats.milliseconds }}</span>
+            </div>
+            <div class="grid grid-cols-2">
+              <span class="font-semibold">Microseconds:</span>
+              <span>{{ allFormats.microseconds }}</span>
+            </div>
+            <div class="grid grid-cols-2">
+              <span class="font-semibold">Nanoseconds:</span>
+              <span>{{ allFormats.nanoseconds }}</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Local Time Display -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Local Time</span>
+          </label>
+          <div class="text-lg p-4 bg-base-200 rounded-lg">
+            {{ formattedLocalTime }}
+          </div>
+        </div>
+  
+        <!-- UTC Time Display -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">UTC Time</span>
+          </label>
+          <div class="text-lg p-4 bg-base-200 rounded-lg">
+            {{ formattedUTCTime }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, computed } from 'vue'
+  
+  const timestamp = ref('')
+  const dateTime = ref('')
+  const timestampFormat = ref('seconds')
+  
+  // Initialize with current time
+  const now = new Date('2025-01-12T08:53:55-07:00')
+  dateTime.value = now.toISOString().slice(0, 16)
+  timestamp.value = Math.floor(now.getTime() / 1000).toString()
+  
+  const detectFormat = (value: string): string => {
+    if (!value) return 'seconds'
+    const num = parseFloat(value)
+    const now = new Date('2025-01-12T08:53:55-07:00').getTime()
+    
+    // Reasonable ranges for each format based on current time
+    // A timestamp should be within ±50 years of current time
+    const fiftyYearsMs = 50 * 365 * 24 * 60 * 60 * 1000
+    const minTime = now - fiftyYearsMs
+    const maxTime = now + fiftyYearsMs
+    
+    // Convert input to milliseconds for each format
+    const asSeconds = num * 1000
+    const asMilliseconds = num
+    const asMicroseconds = num / 1000
+    const asNanoseconds = num / 1000000
+    
+    // Check which conversion puts us in a reasonable time range
+    if (asSeconds >= minTime && asSeconds <= maxTime) return 'seconds'
+    if (asMilliseconds >= minTime && asMilliseconds <= maxTime) return 'milliseconds'
+    if (asMicroseconds >= minTime && asMicroseconds <= maxTime) return 'microseconds'
+    if (asNanoseconds >= minTime && asNanoseconds <= maxTime) return 'nanoseconds'
+    
+    // Default to seconds if we can't detect
+    return 'seconds'
+  }
+  
+  const getMillisecondsFromTimestamp = (value: string, format: string): number => {
+    if (!value) return 0
+    const num = parseFloat(value)
+    switch (format) {
+      case 'seconds':
+        return num * 1000
+      case 'milliseconds':
+        return num
+      case 'microseconds':
+        return num / 1000
+      case 'nanoseconds':
+        return num / 1000000
+      default:
+        return num * 1000
+    }
+  }
+  
+  const updateFromTimestamp = () => {
+    if (timestamp.value) {
+      // Auto-detect format when user types
+      timestampFormat.value = detectFormat(timestamp.value)
+      const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
+      const date = new Date(ms)
+      dateTime.value = date.toISOString().slice(0, 16)
+    }
+  }
+  
+  const updateFromDateTime = () => {
+    if (dateTime.value) {
+      const date = new Date(dateTime.value)
+      const ms = date.getTime()
+      switch (timestampFormat.value) {
+        case 'seconds':
+          timestamp.value = Math.floor(ms / 1000).toString()
+          break
+        case 'milliseconds':
+          timestamp.value = ms.toString()
+          break
+        case 'microseconds':
+          timestamp.value = (ms * 1000).toString()
+          break
+        case 'nanoseconds':
+          timestamp.value = (ms * 1000000).toString()
+          break
+      }
+    }
+  }
+  
+  const allFormats = computed(() => {
+    if (!timestamp.value) {
+      return {
+        seconds: '-',
+        milliseconds: '-',
+        microseconds: '-',
+        nanoseconds: '-'
+      }
+    }
+    
+    const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
+    return {
+      seconds: Math.floor(ms / 1000).toString(),
+      milliseconds: ms.toString(),
+      microseconds: (ms * 1000).toString(),
+      nanoseconds: (ms * 1000000).toString()
+    }
+  })
+  
+  const formattedLocalTime = computed(() => {
+    if (!timestamp.value) return '-'
+    const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
+    return new Date(ms).toLocaleString()
+  })
+  
+  const formattedUTCTime = computed(() => {
+    if (!timestamp.value) return '-'
+    const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
+    return new Date(ms).toUTCString()
+  })
+  </script>

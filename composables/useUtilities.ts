@@ -23,6 +23,13 @@ export const useUtilities = () => {
         description: 'JSON validation and formatting'
       },
       {
+        id: 'timestamp',
+        name: 'Unix Timestamp Converter',
+        path: '/utils/timestamp',
+        icon: 'mdi:clock',
+        description: 'Convert between Unix timestamps and human-readable dates'
+      },
+      {
         id: 'pomodoro',
         name: 'Pomodoro Timer',
         path: '/utils/pomodoro',
