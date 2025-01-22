@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1 class="text-2xl font-bold mb-6">Unix Timestamp Converter</h1>
+      <h1 class="text-2xl font-bold mb-6">Unix Epoch Converter</h1>
       
       <div class="grid gap-6">
         <!-- Unix Timestamp Input -->
@@ -19,7 +19,7 @@
             <select 
               v-model="timestampFormat" 
               class="select select-bordered w-48"
-              @change="updateFromTimestamp"
+              @change="handleFormatChange"
             >
               <option value="seconds">Seconds</option>
               <option value="milliseconds">Milliseconds</option>
@@ -107,6 +107,7 @@
     const num = parseFloat(value)
     const now = new Date('2025-01-12T08:53:55-07:00').getTime()
     
+    const maxEpoch = 2147483647; // 2^31-1, max representable seconds
     // Reasonable ranges for each format based on current time
     // A timestamp should be within ±50 years of current time
     const fiftyYearsMs = 50 * 365 * 24 * 60 * 60 * 1000
@@ -120,7 +121,7 @@
     const asNanoseconds = num / 1000000
     
     // Check which conversion puts us in a reasonable time range
-    if (asSeconds >= minTime && asSeconds <= maxTime) return 'seconds'
+    if (asSeconds >= minTime && asSeconds <= maxEpoch) return 'seconds'
     if (asMilliseconds >= minTime && asMilliseconds <= maxTime) return 'milliseconds'
     if (asMicroseconds >= minTime && asMicroseconds <= maxTime) return 'microseconds'
     if (asNanoseconds >= minTime && asNanoseconds <= maxTime) return 'nanoseconds'
@@ -146,6 +147,30 @@
     }
   }
   
+  const convertTimestampToFormat = (ms: number, format: string): string => {
+    switch (format) {
+      case 'seconds':
+        return Math.floor(ms / 1000).toString()
+      case 'milliseconds':
+        return ms.toString()
+      case 'microseconds':
+        return (ms * 1000).toString()
+      case 'nanoseconds':
+        return (ms * 1000000).toString()
+      default:
+        return Math.floor(ms / 1000).toString()
+    }
+  }
+  
+  const handleFormatChange = () => {
+    if (timestamp.value) {
+      // Get current time in milliseconds using old format
+      const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
+      // Convert to new format
+      timestamp.value = convertTimestampToFormat(ms, timestampFormat.value)
+    }
+  }
+
   const updateFromTimestamp = () => {
     if (timestamp.value) {
       // Auto-detect format when user types

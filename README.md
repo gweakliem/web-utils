@@ -1,8 +1,19 @@
 # Web Utilities project
 
-Created using [Nuxt](https://nuxt.com/docs/getting-started/introduction). This outlines what's required to build and work on this project.
+I'm a Data Engineer in my day job and there's stuff I do all the time: convert unix timestamps, format some JSON to make it readable, base64 encode/decode stuff. There's a billion sites out there to do this but:
+
+1. I wanted all that in one place
+2. I wanted a project to work on
+3. I wanted something I could deploy
+4. I kinda wanted to do some front end work
+
+All with a UI that only a backend engineer would come up with.
+
+Deployed at https://meggie.be/
 
 ## Setup
+
+Created using [Nuxt](https://nuxt.com/docs/getting-started/introduction). This section outlines what's required to build and work on this project.
 
 ### Prerequesites
 
@@ -15,17 +26,7 @@ It's probably a good idea to use [nvm](https://github.com/nvm-sh/nvm) to manage 
 Make sure to install dependencies:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
 ## Development Server
@@ -33,17 +34,7 @@ bun install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -51,33 +42,13 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

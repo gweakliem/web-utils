@@ -65,11 +65,11 @@ export const useUtilities = () => {
       //   description: 'Generate random numbers'
       // },
       {
-        id: 'schema',
-        name: 'Schema Tools',
-        path: '/utils/schema',
+        id: 'pyspark',
+        name: 'Pyspark Schema Tools',
+        path: '/utils/pyspark',
         icon: 'mdi:file-tree',
-        description: 'JSON Schema validation and tools'
+        description: 'Pyspark Conversion Tools'
       },
       {
         id: 'feedback',
