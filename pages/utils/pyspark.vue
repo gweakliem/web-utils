@@ -87,7 +87,7 @@ const convertBigQueryToPySpark = (schema) => {
       DATETIME: 'TimestampType()', // PySpark does not have a direct equivalent for DATETIME
       GEOGRAPHY: 'StringType()', // No direct equivalent, consider using a library for geospatial data
       INTERVAL: 'StringType()', // No direct equivalent, consider custom handling
-      JSON: 'StringType()', // PySpark does not have a JSON type, consider using StringType
+      JSON: 'StringType()', // PySpark does not have a JSON type, using StringType
       INT64: 'LongType()',
       INT: 'IntegerType()',
       SMALLINT: 'ShortType()',

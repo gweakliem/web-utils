@@ -30,6 +30,13 @@ export const useUtilities = () => {
         description: 'Convert between Unix timestamps and human-readable dates'
       },
       {
+        id: 'namegen',
+        name: 'Name Generator',
+        path: '/utils/random-name',
+        icon: 'mdi:human',
+        description: 'Generate random names for projects, variables, etc.'
+      },
+      {
         id: 'pomodoro',
         name: 'Pomodoro Timer',
         path: '/utils/pomodoro',
