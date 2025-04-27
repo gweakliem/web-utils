@@ -41,7 +41,12 @@ const WORD_LIST = ['golf', 'bravo', 'helium', 'unison', 'kayak', 'oscar', 'fusio
   'pixel', 'zephyr', 'jungle', 'lantern', 'charlie', 'drifter', 'yonder', 'vivid', 'cobalt', 'gadget', 'prism', 
   'nectar', 'yodel', 'quartz', 'cascade', 'hotel', 'apex', 'violet', 'piano', 'yellow', 'robot', 'wander', 
   'sierra', 'magnet', 'echo', 'harbor', 'ember', 'nimbus', 'mango','racoon', 'meerkat', 'tuxedo', 'sphinx',
-  'schnoz', 'grift', 'blue', 'sky', 'pendant', 'pedant', 'breezy', 'sleek', 'snazzy', 'snappy', 'snappy'
+  'schnoz', 'grift', 'blue', 'sky', 'pendant', 'pedant', 'breezy', 'sleek', 'snazzy', 'snappy', 'snappy',
+  'nudge', 'noodge', 'nuzzle', 'muzzle', 'trump', 'wall', 'tariff', 'vibe', 'code', 'rizz', 'rizzle', 'rizzly',
+  'gyatt', 'cook', 'rip', 'ripped', 'brain', 'rot', 'skibidi', 'ohio', 'sigma', 'mewing', 'sus', 'cap', 'aura',
+  'bruh', 'salty', 'ate', 'noob', 'troll', 'yeet', 'bop', 'boppy', 'simp', 'cringe', 'opp', 'savage', 'twin', 
+  'pookie', 'drip', 'flex', 'tea', 'goat', 'sheesh', 'glaze', 'chad', 'alpha', 'beta', 'mog', 'slay', 'fam', 
+  'yap', 'yapping'
 ];
 
 function getRandomWord() {
