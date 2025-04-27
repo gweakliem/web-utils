@@ -33,14 +33,16 @@ const format = ref('kebab-case');
 const name = ref('');
 
 const WORD_LIST = ['golf', 'bravo', 'helium', 'unison', 'kayak', 'oscar', 'fusion', 'talent', 'envoy', 
-  'anchor', 'nebula', 'breeze', 'zenith', 'parade', 'india', 'ignite', 'thrive', 'zebra', 'lima', 'safari', 
+  'anchor', 'nebula', 'breeze', 'zenith', 'parade', 'indian', 'ignite', 'thrive', 'zebra', 'lima', 'safari', 
   'velvet', 'sigma', 'octave', 'novel', 'xenon', 'glider', 'dynamo', 'whimsy', 'crystal', 'sable', 'kernel', 
   'luster', 'foxtrot', 'ultra', 'kilo', 'ripple', 'temple', 'matrix', 'island', 'alpha', 'fable', 'jovial', 
   'impact', 'mellow', 'legend', 'uplift', 'fluent', 'driven', 'ranger', 'hazard', 'amber', 'jigsaw', 'tango', 
   'groove', 'juliet', 'vector', 'rocket', 'blazer', 'delta', 'beacon', 'quiver', 'aspect', 'whale', 'oracle', 
   'pixel', 'zephyr', 'jungle', 'lantern', 'charlie', 'drifter', 'yonder', 'vivid', 'cobalt', 'gadget', 'prism', 
   'nectar', 'yodel', 'quartz', 'cascade', 'hotel', 'apex', 'violet', 'piano', 'yellow', 'robot', 'wander', 
-  'sierra', 'magnet', 'echo', 'harbor', 'ember', 'nimbus', 'mango'];
+  'sierra', 'magnet', 'echo', 'harbor', 'ember', 'nimbus', 'mango','racoon', 'meerkat', 'tuxedo', 'sphinx',
+  'schnoz', 'grift', 'blue', 'sky', 'pendant', 'pedant', 'breezy', 'sleek', 'snazzy', 'snappy', 'snappy'
+];
 
 function getRandomWord() {
   let word;
