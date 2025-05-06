@@ -32,6 +32,7 @@ import { ref } from 'vue';
 const format = ref('kebab-case');
 const name = ref('');
 
+// ideas for word groups: normie, NATO phonetic, colors, gen alpha, animals, 
 const WORD_LIST = ['golf', 'bravo', 'helium', 'unison', 'kayak', 'oscar', 'fusion', 'talent', 'envoy', 
   'anchor', 'nebula', 'breeze', 'zenith', 'parade', 'indian', 'ignite', 'thrive', 'zebra', 'lima', 'safari', 
   'velvet', 'sigma', 'octave', 'novel', 'xenon', 'glider', 'dynamo', 'whimsy', 'crystal', 'sable', 'kernel', 
@@ -43,10 +44,10 @@ const WORD_LIST = ['golf', 'bravo', 'helium', 'unison', 'kayak', 'oscar', 'fusio
   'sierra', 'magnet', 'echo', 'harbor', 'ember', 'nimbus', 'mango','racoon', 'meerkat', 'tuxedo', 'sphinx',
   'schnoz', 'grift', 'blue', 'sky', 'pendant', 'pedant', 'breezy', 'sleek', 'snazzy', 'snappy', 'snappy',
   'nudge', 'noodge', 'nuzzle', 'muzzle', 'trump', 'wall', 'tariff', 'vibe', 'code', 'rizz', 'rizzle', 'rizzly',
-  'gyatt', 'cook', 'rip', 'ripped', 'brain', 'rot', 'skibidi', 'ohio', 'sigma', 'mewing', 'sus', 'cap', 'aura',
+  'gyatt', 'cook', 'rip', 'ripped', 'brain', 'rot', 'skibidi', 'ohio', 'sigma', 'sus', 'cap', 'aura',
   'bruh', 'salty', 'ate', 'noob', 'troll', 'yeet', 'bop', 'boppy', 'simp', 'cringe', 'opp', 'savage', 'twin', 
   'pookie', 'drip', 'flex', 'tea', 'goat', 'sheesh', 'glaze', 'chad', 'alpha', 'beta', 'mog', 'slay', 'fam', 
-  'yap', 'yapping'
+  'yap', 'yapping', 'stuff', 'slop', 'fire', 'mad'
 ];
 
 function getRandomWord() {
