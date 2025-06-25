@@ -79,7 +79,7 @@ const isSubmitting = ref(false)
 // Sanitize text to prevent @ mentions that could trigger automation
 const sanitizeText = (text: string): string => {
   // Remove @ mentions by replacing @username with [username]
-  return text.replace(/@(\w+)/g, '[$1]')
+  return text.replace(/@([a-zA-Z0-9_-]+)/g, '[$1]')
 }
 
 const submitFeedback = async () => {

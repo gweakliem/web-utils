@@ -233,13 +233,11 @@ const formatJSON = () => {
 
 const minifyJSON = () => {
   try {
-    console.log(jsonInput.value)
     if (!jsonInput.value.trim()) {
       return
     }
 
     const parsed = JSON.parse(jsonInput.value)
-    console.log(parsed)
     jsonInput.value = JSON.stringify(parsed)
 
     hasError.value = false
