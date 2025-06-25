@@ -31,7 +31,7 @@
             >{{ part.text }}</span></template><template v-if="!jsonInput">Paste your JSON here...</template></pre>
       </div>
 
-      <div class="flex space-x-4">
+      <div class="flex flex-wrap gap-4">
         <button @click="validateJSON"
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center">
           <Icon name="mdi:check-circle" class="w-5 h-5 mr-2" />
@@ -46,6 +46,16 @@
           class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 flex items-center">
           <Icon name="mdi:compress" class="w-5 h-5 mr-2" />
           Minify
+        </button>
+        <button @click="escapeJSON"
+          class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 flex items-center">
+          <Icon name="mdi:format-quote-close" class="w-5 h-5 mr-2" />
+          Escape
+        </button>
+        <button @click="unescapeJSON"
+          class="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 flex items-center">
+          <Icon name="mdi:format-quote-open" class="w-5 h-5 mr-2" />
+          Unescape
         </button>
       </div>
 
@@ -231,6 +241,72 @@ const minifyJSON = () => {
     const parsed = JSON.parse(jsonInput.value)
     console.log(parsed)
     jsonInput.value = JSON.stringify(parsed)
+
+    hasError.value = false
+    errorMessage.value = ''
+    showSuccess.value = true
+    errorLocation.value = { line: 0, column: 0 }
+    updateHighlighting(null)
+
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+  } catch (e) {
+    hasError.value = true
+    errorMessage.value = e.message
+    errorLocation.value = parseErrorPosition(e)
+    updateHighlighting(errorLocation.value)
+  }
+}
+
+const escapeJSON = () => {
+  try {
+    if (!jsonInput.value.trim()) {
+      return
+    }
+
+    // First validate that it's valid JSON
+    JSON.parse(jsonInput.value)
+    
+    // Convert the JSON to an escaped string
+    jsonInput.value = JSON.stringify(jsonInput.value)
+
+    hasError.value = false
+    errorMessage.value = ''
+    showSuccess.value = true
+    errorLocation.value = { line: 0, column: 0 }
+    updateHighlighting(null)
+
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+  } catch (e) {
+    hasError.value = true
+    errorMessage.value = e.message
+    errorLocation.value = parseErrorPosition(e)
+    updateHighlighting(errorLocation.value)
+  }
+}
+
+const unescapeJSON = () => {
+  try {
+    if (!jsonInput.value.trim()) {
+      return
+    }
+
+    // Parse the escaped JSON string to get the original JSON
+    const unescaped = JSON.parse(jsonInput.value)
+    
+    // Check if the result is a string (expected for escaped JSON)
+    if (typeof unescaped !== 'string') {
+      throw new Error('Input is not an escaped JSON string')
+    }
+    
+    // Validate that the unescaped content is valid JSON
+    JSON.parse(unescaped)
+    
+    // Set the unescaped JSON as the new input
+    jsonInput.value = unescaped
 
     hasError.value = false
     errorMessage.value = ''
