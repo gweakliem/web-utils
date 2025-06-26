@@ -76,12 +76,22 @@ const error = ref('')
 const success = ref('')
 const isSubmitting = ref(false)
 
+// Sanitize text to prevent @ mentions that could trigger automation
+const sanitizeText = (text: string): string => {
+  // Remove @ mentions by replacing @username with [username]
+  return text.replace(/@([a-zA-Z0-9_-]+)/g, '[$1]')
+}
+
 const submitFeedback = async () => {
   error.value = ''
   success.value = ''
   isSubmitting.value = true
 
   try {
+    // Sanitize title and description to prevent @ mentions
+    const sanitizedTitle = sanitizeText(title.value)
+    const sanitizedDescription = sanitizeText(description.value)
+
     // GitHub API requires authentication
     const response = await fetch('https://api.github.com/repos/gweakliem/web-utils/issues', {
       method: 'POST',
@@ -91,8 +101,8 @@ const submitFeedback = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: `[${type.value.toUpperCase()}] ${title.value}`,
-        body: description.value,
+        title: `[${type.value.toUpperCase()}] ${sanitizedTitle}`,
+        body: sanitizedDescription,
         labels: [type.value]
       })
     })
