@@ -57,6 +57,11 @@
           <Icon name="mdi:format-quote-open" class="w-5 h-5 mr-2" />
           Unescape
         </button>
+        <button @click="repairJSON"
+          class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 flex items-center">
+          <Icon name="mdi:wrench" class="w-5 h-5 mr-2" />
+          Repair
+        </button>
       </div>
 
       <!-- Error message -->
@@ -73,6 +78,8 @@
 </template>
 
 <script setup>
+import { jsonrepair } from 'jsonrepair'
+
 const jsonInput = ref('')
 const hasError = ref(false)
 const errorMessage = ref('')
@@ -318,6 +325,33 @@ const unescapeJSON = () => {
   } catch (e) {
     hasError.value = true
     errorMessage.value = e.message
+    errorLocation.value = parseErrorPosition(e)
+    updateHighlighting(errorLocation.value)
+  }
+}
+
+const repairJSON = () => {
+  try {
+    if (!jsonInput.value.trim()) {
+      return
+    }
+
+    // Attempt to repair the malformed JSON
+    const repaired = jsonrepair(jsonInput.value)
+    jsonInput.value = repaired
+    
+    hasError.value = false
+    errorMessage.value = ''
+    showSuccess.value = true
+    errorLocation.value = { line: 0, column: 0 }
+    updateHighlighting(null)
+
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+  } catch (e) {
+    hasError.value = true
+    errorMessage.value = `Repair failed: ${e.message}`
     errorLocation.value = parseErrorPosition(e)
     updateHighlighting(errorLocation.value)
   }
