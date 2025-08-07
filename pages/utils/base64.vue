@@ -3,12 +3,19 @@
     <div class="max-w-2xl mx-auto">
       <h2 class="text-2xl font-bold mb-6">Base64 Encoder/Decoder</h2>
       <div class="space-y-4">
-        <textarea
-          v-model="input"
-          class="w-full p-2 border rounded"
-          rows="4"
-          placeholder="Enter text to encode/decode"
-        ></textarea>
+        <div class="relative">
+          <button @click="copyInput"
+            class="absolute top-2 right-2 z-10 p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-600 hover:text-gray-800 transition-colors"
+            :title="copyInputSuccess ? 'Copied!' : 'Copy input to clipboard'">
+            <Icon :name="copyInputSuccess ? 'mdi:check' : 'mdi:content-copy'" class="w-5 h-5" />
+          </button>
+          <textarea
+            v-model="input"
+            class="w-full p-2 border rounded"
+            rows="4"
+            placeholder="Enter text to encode/decode"
+          ></textarea>
+        </div>
         <div class="flex space-x-4">
           <button
             @click="encode"
@@ -47,6 +54,7 @@
   const input = ref('')
   const output = ref('')
   const copySuccess = ref(false)
+  const copyInputSuccess = ref(false)
   
   const encode = () => {
     try {
@@ -71,6 +79,18 @@
       // Hide success message after 2 seconds
       setTimeout(() => {
         copySuccess.value = false
+      }, 2000)
+    } catch (e) {
+      console.error('Failed to copy text:', e)
+    }
+  }
+  
+  const copyInput = async () => {
+    try {
+      await navigator.clipboard.writeText(input.value)
+      copyInputSuccess.value = true
+      setTimeout(() => {
+        copyInputSuccess.value = false
       }, 2000)
     } catch (e) {
       console.error('Failed to copy text:', e)
