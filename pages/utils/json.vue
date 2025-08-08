@@ -336,6 +336,13 @@ const repairJSON = () => {
       return
     }
 
+    const MAX_INPUT_SIZE = 1024 * 1024 // 1MB limit
+    if (jsonInput.value.length > MAX_INPUT_SIZE) {
+      hasError.value = true
+      errorMessage.value = 'Input too large for repair operation'
+      return
+    }
+
     // Attempt to repair the malformed JSON
     const repaired = jsonrepair(jsonInput.value)
     jsonInput.value = repaired
