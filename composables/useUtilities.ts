@@ -79,6 +79,13 @@ export const useUtilities = () => {
         description: 'Pyspark Conversion Tools'
       },
       {
+        id: 'pdf-extract',
+        name: 'PDF Text Extractor',
+        path: '/utils/pdf-extract',
+        icon: 'mdi:file-pdf-box',
+        description: 'Extract text from PDF files'
+      },
+      {
         id: 'feedback',
         name: 'Feedback',
         path: '/utils/feedback',
