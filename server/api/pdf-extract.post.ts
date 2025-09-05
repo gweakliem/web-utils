@@ -1,6 +1,8 @@
 import { readMultipartFormData } from 'h3'
 import pdfParse from 'pdf-parse'
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
 export default defineEventHandler(async (event) => {
   try {
     // Parse the multipart form data
@@ -38,9 +40,17 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    // Check PDF magic number (starts with %PDF-)
+    const pdfMagic = pdfFile.data.slice(0, 5).toString('ascii')
+    if (!pdfMagic.startsWith('%PDF-')) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid PDF file format'
+      })
+    }
+
     // Check file size (10MB limit)
-    const maxSize = 10 * 1024 * 1024 // 10MB
-    if (pdfFile.data.length > maxSize) {
+    if (pdfFile.data.length > MAX_FILE_SIZE) {
       throw createError({
         statusCode: 400,
         statusMessage: 'File size exceeds 10MB limit'
