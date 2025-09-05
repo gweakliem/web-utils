@@ -10,7 +10,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "patch-package && nuxt prepare",
+    "postinstall": "patch-package && nuxt prepare"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.2",
