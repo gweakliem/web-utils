@@ -37,34 +37,50 @@
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
             <!-- Seconds -->
             <div class="flex flex-col gap-1">
-              <span class="text-xs text-center font-medium">Seconds</span>
               <div class="flex gap-1">
-                <button @click="adjustTime(-1, 'seconds')" class="btn btn-sm btn-outline flex-1">-1</button>
-                <button @click="adjustTime(1, 'seconds')" class="btn btn-sm btn-outline flex-1">+1</button>
+                <button @click="adjustTime(-1, 'seconds')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black" aria-label="-1"/>
+                </button>
+              <span class="text-xs text-center font-medium">Seconds</span>
+                <button @click="adjustTime(1, 'seconds')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
               </div>
             </div>
             <!-- Minutes -->
             <div class="flex flex-col gap-1">
-              <span class="text-xs text-center font-medium">Minutes</span>
               <div class="flex gap-1">
-                <button @click="adjustTime(-1, 'minutes')" class="btn btn-sm btn-outline flex-1">-1</button>
-                <button @click="adjustTime(1, 'minutes')" class="btn btn-sm btn-outline flex-1">+1</button>
+                <button @click="adjustTime(-1, 'minutes')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black"/>
+                </button>
+              <span class="text-xs text-center font-medium">Minutes</span>
+                <button @click="adjustTime(1, 'minutes')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
               </div>
             </div>
             <!-- Hours -->
             <div class="flex flex-col gap-1">
-              <span class="text-xs text-center font-medium">Hours</span>
               <div class="flex gap-1">
-                <button @click="adjustTime(-1, 'hours')" class="btn btn-sm btn-outline flex-1">-1</button>
-                <button @click="adjustTime(1, 'hours')" class="btn btn-sm btn-outline flex-1">+1</button>
+                <button @click="adjustTime(-1, 'hours')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black" aria-label="-1"/>
+                </button>
+              <span class="text-xs text-center font-medium">Hours</span>
+                <button @click="adjustTime(1, 'hours')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
               </div>
             </div>
             <!-- Days -->
             <div class="flex flex-col gap-1">
-              <span class="text-xs text-center font-medium">Days</span>
               <div class="flex gap-1">
-                <button @click="adjustTime(-1, 'days')" class="btn btn-sm btn-outline flex-1">-1</button>
-                <button @click="adjustTime(1, 'days')" class="btn btn-sm btn-outline flex-1">+1</button>
+                <button @click="adjustTime(-1, 'days')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black" aria-label="-1"/>
+                </button>
+              <span class="text-xs text-center font-medium">Days</span>
+                <button @click="adjustTime(1, 'days')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
               </div>
             </div>
           </div>
