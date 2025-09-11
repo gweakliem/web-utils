@@ -28,6 +28,63 @@
             </select>
           </div>
         </div>
+
+        <!-- Time Adjustment Controls -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Adjust Time</span>
+          </label>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <!-- Seconds -->
+            <div class="flex flex-col gap-1">
+              <div class="flex gap-1">
+                <button @click="adjustTime(-1, 'seconds')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black" aria-label="-1"/>
+                </button>
+              <span class="text-xs text-center font-medium">Seconds</span>
+                <button @click="adjustTime(1, 'seconds')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
+              </div>
+            </div>
+            <!-- Minutes -->
+            <div class="flex flex-col gap-1">
+              <div class="flex gap-1">
+                <button @click="adjustTime(-1, 'minutes')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black"/>
+                </button>
+              <span class="text-xs text-center font-medium">Minutes</span>
+                <button @click="adjustTime(1, 'minutes')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
+              </div>
+            </div>
+            <!-- Hours -->
+            <div class="flex flex-col gap-1">
+              <div class="flex gap-1">
+                <button @click="adjustTime(-1, 'hours')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black" aria-label="-1"/>
+                </button>
+              <span class="text-xs text-center font-medium">Hours</span>
+                <button @click="adjustTime(1, 'hours')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
+              </div>
+            </div>
+            <!-- Days -->
+            <div class="flex flex-col gap-1">
+              <div class="flex gap-1">
+                <button @click="adjustTime(-1, 'days')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-down-bold" style="color: black" aria-label="-1"/>
+                </button>
+              <span class="text-xs text-center font-medium">Days</span>
+                <button @click="adjustTime(1, 'days')" class="btn btn-sm btn-outline flex-1">
+                  <Icon name="mdi:arrow-up-bold" style="color: black" aria-label="+1"/>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
   
         <!-- Human Readable Date Input -->
         <div class="form-control">
@@ -98,14 +155,14 @@
   const timestampFormat = ref('seconds')
   
   // Initialize with current time
-  const now = new Date('2025-01-12T08:53:55-07:00')
+  const now = new Date()
   dateTime.value = now.toISOString().slice(0, 16)
   timestamp.value = Math.floor(now.getTime() / 1000).toString()
   
   const detectFormat = (value: string): string => {
     if (!value) return 'seconds'
     const num = parseFloat(value)
-    const now = new Date('2025-01-12T08:53:55-07:00').getTime()
+    const now = new Date().getTime()
     
     const maxEpoch = 2147483647; // 2^31-1, max representable seconds
     // Reasonable ranges for each format based on current time
@@ -201,6 +258,32 @@
       }
     }
   }
+
+  const adjustTime = (amount: number, unit: 'seconds' | 'minutes' | 'hours' | 'days') => {
+    if (!timestamp.value) return
+    
+    const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
+    const date = new Date(ms)
+    
+    switch (unit) {
+      case 'seconds':
+        date.setSeconds(date.getSeconds() + amount)
+        break
+      case 'minutes':
+        date.setMinutes(date.getMinutes() + amount)
+        break
+      case 'hours':
+        date.setHours(date.getHours() + amount)
+        break
+      case 'days':
+        date.setDate(date.getDate() + amount)
+        break
+    }
+    
+    const newMs = date.getTime()
+    timestamp.value = convertTimestampToFormat(newMs, timestampFormat.value)
+    dateTime.value = date.toISOString().slice(0, 16)
+  }
   
   const allFormats = computed(() => {
     if (!timestamp.value) {
@@ -224,7 +307,10 @@
   const formattedLocalTime = computed(() => {
     if (!timestamp.value) return '-'
     const ms = getMillisecondsFromTimestamp(timestamp.value, timestampFormat.value)
-    return new Date(ms).toLocaleString()
+    const date = new Date(ms)
+    const timeString = date.toLocaleString()
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return `${timeString} (${timezone})`
   })
   
   const formattedUTCTime = computed(() => {
