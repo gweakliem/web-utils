@@ -34,4 +34,10 @@ export default defineNuxtConfig({
       githubToken: process.env.FEEDBACK_TOKEN
     }
   },
+  nitro: {
+    awsAmplify: {
+      catchAllStaticFallback: true,
+      runtime: 'nodejs20.x'
+    }
+  }
 })
