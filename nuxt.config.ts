@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
+    preset: 'aws-amplify',
     awsAmplify: {
       catchAllStaticFallback: true,
       runtime: 'nodejs20.x'
