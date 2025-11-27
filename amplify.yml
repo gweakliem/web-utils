@@ -1,0 +1,16 @@
+version: 1
+frontend:
+    phases:
+        preBuild:
+            commands:
+                - 'corepack enable'
+                - nvm install v20.17.0
+                - nvm use v20.17.0         
+                - 'npx --yes nypm i'
+        build:
+            commands:
+                - 'npm run build'
+    artifacts:
+        baseDirectory: .amplify-hosting
+        files:
+            - '**/*'
