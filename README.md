@@ -53,6 +53,8 @@ npm run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
+This is deployed on AWS Amplify. The deployment relies on a Github PAT which needs to be regenerated periodically. The PAT gets stored in the AWS Amplify Secrets.
+
 ## Resources
 
 Sounds downloaded from [SoundBible.com](https://soundbible.com/), licensed under [Creative Commons Attribution 3.0](https://creativecommons.org/licenses/by/3.0/)
