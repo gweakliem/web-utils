@@ -1,12 +1,12 @@
 version: 1
+settings:
+  nodeVersion: "20"
 frontend:
     phases:
         preBuild:
             commands:
                 - 'corepack enable'
-                - nvm install v20.17.0
-                - nvm use v20.17.0         
-                - 'npx --yes nypm i'
+                - 'npm i'
         build:
             commands:
                 - 'npm run build'
